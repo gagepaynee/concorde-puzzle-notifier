@@ -10,6 +10,16 @@ function App() {
     const ws = new WebSocket('ws://192.168.0.144:5000');
     wsRef.current = ws;
 
+    ws.onopen = () => {
+      const id = Math.random().toString(36).substring(2, 10);
+      const message = { event: 'setup', id };
+      try {
+        ws.send(JSON.stringify(message));
+      } catch (err) {
+        console.error('Failed to send setup message', err);
+      }
+    };
+
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
