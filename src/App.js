@@ -7,7 +7,7 @@ function App() {
   const wsRef = useRef(null);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://192.168.0.144:5000');
+    const ws = new WebSocket('wss://192.168.0.144:5000');
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -23,6 +23,7 @@ function App() {
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
+        console.log(data)
         if (data.type === 'register_success' && data.id) {
           setRegisteredIds((prev) => {
             if (prev.includes(data.id)) {
@@ -52,25 +53,11 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
         {registeredIds.map((id) => (
           <button key={id} onClick={() => handleUnlock(id)}>
             {`Unlock ${id}`}
           </button>
         ))}
-      </header>
     </div>
   );
 }
