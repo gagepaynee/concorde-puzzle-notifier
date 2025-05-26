@@ -24,7 +24,7 @@ function App() {
       try {
         const data = JSON.parse(event.data);
         console.log(data)
-        if (data.type === 'register_success' && data.id) {
+        if (data.event === 'register_success' && data.id) {
           setRegisteredIds((prev) => {
             if (prev.includes(data.id)) {
               return prev;
